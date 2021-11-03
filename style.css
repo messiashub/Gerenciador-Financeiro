@@ -46,7 +46,6 @@ a{
 }
 a:hover{
     color: #3dd705;
-
 }
 
 .button.new{
@@ -104,12 +103,17 @@ header {
 
 
 /* Table============================ */
+#transaction{
+    width: 100%;
+    overflow-x: auto;
+
+}
 #data-table{
-    display: block;
+    /* display: block; */
     width: 100%;
     border-spacing: 0 0.5rem;
     color:#969cb3;
-    overflow-x: auto;
+    /* overflow-x: auto; */
 }
 
 table thead tr th:first-child,
@@ -121,8 +125,6 @@ table thead tr th:last-child,
 table tbody tr td:last-child{
     border-radius: 0 0.25rem  0.25rem 0;  /* sentido horario */
 }
-
-
 
 table thead th{
     background:white;   
@@ -153,6 +155,31 @@ td.income{
 
 td.expense{
     color: #e92929;
+}
+
+/* Modal ========================== */
+.modal-overlay{
+    width: 100%;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+}
+.modal-overlay.active{
+    opacity: 1;
+    visibility: visible;
+}
+.modal{
+    background: #f0f2f5;
+    padding: 2.4rem;
+    position: relative;
+    
 }
 
 /* Footer =========================== */
