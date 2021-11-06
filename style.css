@@ -66,7 +66,6 @@ button:hover{
 .button.new{
     display:inline-block;
     margin-bottom: .8rem;
-
 }
 .button.cancel{
     color:var(--red);
@@ -134,7 +133,6 @@ header {
 #transaction{
     width: 100%;
     overflow-x: auto;
-
 }
 #data-table{
     /* display: block; */
@@ -182,8 +180,7 @@ td.income{
 }
 
 td.expense{
-    color: var(--red);
-    
+    color: var(--red);    
 }
 
 /* Modal ========================== */
@@ -191,7 +188,6 @@ td.expense{
     width: 100%;
     height:100%;
     background-color: rgba(0, 0, 0, 0.7);
-
     position: fixed;
     top: 0;
     display: flex;
