@@ -3,6 +3,7 @@
     --dark-blue:#363f5f;
     --green: #49AA26;
     --light-green:#3dd705;
+    --red:#e92929;
 }
 *{
     margin: 0;
@@ -66,6 +67,19 @@ button:hover{
     display:inline-block;
     margin-bottom: .8rem;
 
+}
+.button.cancel{
+    color:var(--red);
+    border: 2px var(--red) solid;
+    border-radius: 0.25rem;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.6;
+}
+.button.cancel:hover{
+    opacity:1;
 }
 /* Header=========================== */
 header {
@@ -168,7 +182,8 @@ td.income{
 }
 
 td.expense{
-    color: #e92929;
+    color: var(--red);
+    
 }
 
 /* Modal ========================== */
@@ -184,6 +199,7 @@ td.expense{
     justify-content: center;
     opacity: 0;
     visibility: hidden;
+    z-index: 999;
 }
 .modal-overlay.active{
     opacity: 1;
