@@ -28,7 +28,7 @@ const transactions = [
     {                  /* objeto */
         id:1, 
         description:"luz", 
-        amount: -50000,       // amount= quantia
+        amount: -50001,       // amount= quantia
         date:"23/01/2021"
     },      
     {
@@ -40,7 +40,7 @@ const transactions = [
     {
         id:3, 
         description:"internet", 
-        amount: -20000,       // amount= quantia
+        amount: -20013,       // amount= quantia
         date:"23/01/2021"
     },
     {
@@ -52,15 +52,38 @@ const transactions = [
 ]
 
 
-const Transaction={
+const Transaction={//7.1
     income(){
-        // somar entradas
+        let income = 0;
+        //pegar todas as transações
+        // para cada transação,
+        transactions.forEach((transaction)=>{
+            //se ela for maior que zero
+            if(transaction.amount > 0){
+                // somar a uma variável e retornar a variavel
+                income += transaction.amount;
+            }
+        })
+        return income // somar entradas
     },
+
     expenses(){
-        // somar saidas
+         let expense = 0;
+        //pegar todas as transações
+        // para cada transação,
+        transactions.forEach((transaction)=>{
+            //se ela for menor que zero
+            if(transaction.amount < 0){
+                // somar a uma variável e retornar a variavel
+                expense += transaction.amount;
+            }
+        })
+
+        return expense  // somar saidas
     },
     total(){
-        // entradas - saídas
+        let total = Transaction.income() + Transaction.expenses(); //Obs: como os expenses ja possuem  sinal de - , + e -,é igual a -
+        return  total// entradas - saídas
     }
 }
 
@@ -83,23 +106,46 @@ const DOM = { // 3 metodo vai adicionar
                                         // o  objeto "transactions e passar as suas propriedades"
 
         const CssClass = transactions.amount > 0 ? "income":"expense" //5 caso quantia seja maior que 0 recebe a classe 'income'
-        const amount= Utils.formatCurrency(transactions.amount); // 6
+
+        const amount= Utils.formatCurrency(transactions.amount); // 6 formatando
+
         const html = `
         <td class="description">${transactions.description}</td> 
-        <td class="${CssClass}">${transactions.amount}</td>
+        <td class="${CssClass}">${amount}</td>
         <td class="date">${transactions.date}</td>
         <td><img src="./assets/minus.svg" alt="Remover transação"></td>
         
         `
         return html
+    },
+    updateBalance(){ // 7 Método para atualizar os campos "Entradas","Saídas" e "Total"
+        document
+            .getElementById("incomeDisplay")
+            .innerHTML = Utils.formatCurrency(Transaction.income())  // Utils 6
+        document
+            .getElementById("expenseDisplay")
+            .innerHTML = Utils.formatCurrency( Transaction.expenses()) // Utils 6
+        document
+            .getElementById("totalDisplay")
+            .innerHTML = Utils.formatCurrency( Transaction.total()) // Utils 6
+
     }
 }
 
-const Utils = { // 6
+const Utils = { // 6 formatando
     formatCurrency(value){
-        const signal = Number(value) < 0 ? "-" : "+"  ; 
-        console.log(value);
+        const signal = Number(value) < 0 ? "-" : ""  ; 
+
+        value = String(value).replace(/\D/g,"");// Regex = tudo que não for numero, troque por nada, estudar regex
+        /* value= Number(value)/100 */
+        /* console.log(value); */
+        /* console.log(typeof value); */
+
+        value = Number(value)/100;
+       /*  console.log(value);     */
         
+        value= value.toLocaleString('pt-BR',{style:"currency",currency:"BRL"})
+        return signal + value
     }
 }
 
@@ -107,6 +153,7 @@ transactions.forEach(function(transaction){ //4  Para cada transação em transa
     DOM.addTransaction(transaction)
 })
 
+DOM.updateBalance()
 
 
 
@@ -117,4 +164,7 @@ transactions.forEach(function(transaction){ //4  Para cada transação em transa
 /* Eu preciso pegar as minha transações do meu
    objeto aqui no javascript e colocar
    lá no HTML */
- 
+
+
+/*7.1 Transaction = pegar todas as transações
+  se for maior que zero  somar a uma variável e retornar a variável */
