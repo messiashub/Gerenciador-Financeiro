@@ -13,9 +13,9 @@ const modal={
     $modal.classList.add("active");
     }),
     /* Função para fechar o modal  Remover a class active */
-    close:$cancelar.addEventListener('click',()=>{
+    close:($cancelar.addEventListener('click',()=>{
         $modal.classList.remove("active");
-    })  
+    }))  
 }
 // Eu preciso somar as entradas
 // depois eu preciso somar as Saidas e 
@@ -152,6 +152,24 @@ const DOM = { // 3 metodo vai adicionar
 }
 
 const Utils = { // 6 formatando
+    formatAmount(value){ // 11
+        value = Number(value)*100 // transformando em  numero multiplicando
+
+        return value;
+       /*  console.log(value) */
+
+    },
+
+    formatDate(date){ //11
+        const splitteDate = date.split("-");
+        /* console.log(date)
+        console.log(splitteDate); */
+       
+        return  `${splitteDate[2]}/${splitteDate[1]}/${splitteDate[0]}` 
+
+    },
+
+
     formatCurrency(value){
         const signal = Number(value) < 0 ? "-" : ""  ; 
 
@@ -181,7 +199,7 @@ const Form = {
         }
     },
   
-    validadeFields(){ // 10
+    validadeFields(){ // 10  validando campos
         const {description,amount,date} = Form.getValues();
 
         if(description.trim() === "" || amount.trim()=== "" || date.trim()=== ""){
@@ -189,19 +207,52 @@ const Form = {
         }
         console.log(Form.getValues())
     },
-    
+
+    formatValues(){ // 11  formatando os  valores
+        let {description,amount,date} = Form.getValues();
+        amount = Utils.formatAmount(amount);
+        date = Utils.formatDate(date);
+        
+        return{
+            description,
+            amount,
+            date
+        }
+
+    },
+
+    saveTransaction(transaction){ //12
+        Transaction.add(transaction)
+    },
+    clearFilds(){ // 13
+        Form.description.value="";
+        Form.amount.value="";
+        Form.date.value="";
+    },
+    close(){ // 14
+        $modal.classList.remove("active");
+
+    },
     submit(event){ // 10
         /* console.log(event) */
         event.preventDefault();
          // 1 verificar se todas as informações forem preenchidas
         
         try{
-            Form.validadeFields();
+            Form.validadeFields(); // 10
             // 2 formatar os dados para salvar 
-            /* Form.formatData() */
+            const transaction = Form.formatValues(); //11
+
             // salvar 
+            Form.saveTransaction(transaction) //12
+
             // apagar os dados do formulario 
-            // fechar Modal
+            Form.clearFilds()  // 13
+
+            // fechar Modal // 14
+            Form.close();
+
+            
             // Atualizar a aplicação
         }catch(error){
             alert(error.message)
