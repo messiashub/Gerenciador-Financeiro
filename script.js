@@ -23,37 +23,26 @@ const modal={
 // assim, eu terei o total
 
 
+
+
+// 13- Guardando no LocalStorage
+const Storage = {
+    // a) pegar as informações do local storage
+    get(){
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || [];
+        console.log(localStorage)
+    },
+
+    // b) guardar as informações
+    set(transactions){
+        localStorage.setItem("dev.finances:transactions",JSON.stringify(transactions));
+    },
+
+}
+
 // Transações
-
-
-
-const Transaction={//7.1
-    all: [
-        {                  /* objeto */
-           /*  id:1,  */
-            description:"luz", 
-            amount: -50001,       // amount= quantia
-            date:"23/01/2021"
-        },      
-        {
-           /*  id:2,  */
-            description:"Criação de website", 
-            amount: 500000,       // amount= quantia
-            date:"23/01/2021"
-        },
-        {
-           /*  id:3, */ 
-            description:"internet", 
-            amount: -20013,       // amount= quantia
-            date:"23/01/2021"
-        },
-        {
-           /*  id:4,  */
-            description:"App", 
-            amount: 200000,       // amount= quantia
-            date:"23/01/2021"
-        }
-    ],
+const Transaction={
+    all:Storage.get(), // 13
     
     add(transaction){
         Transaction.all.push(transaction);
@@ -113,11 +102,12 @@ const DOM = { // 3 metodo vai adicionar
 
        /*  console.log(transactions) */
         const tr = document = document.createElement('tr');
-        tr.innerHTML = DOM.innerHTMLTransaction(transactions);
+        tr.innerHTML = DOM.innerHTMLTransaction(transactions,index);//12 index
+        tr.dataset.index = index; //12
         /* console.log(tr.innerHTML); */
         DOM.transactionsContainer.appendChild(tr);
     },
-    innerHTMLTransaction(transactions){ //  1 método vai criar "tds"  e vai ter como parametro
+    innerHTMLTransaction(transactions,index){ //  1 método vai criar "tds"  e vai ter como parametro
                                         // o  objeto "transactions e passar as suas propriedades"
 
         const CssClass = transactions.amount > 0 ? "income":"expense" //5 caso quantia seja maior que 0 recebe a classe 'income'
@@ -128,7 +118,7 @@ const DOM = { // 3 metodo vai adicionar
         <td class="description">${transactions.description}</td> 
         <td class="${CssClass}">${amount}</td>
         <td class="date">${transactions.date}</td>
-        <td><img src="./assets/minus.svg" alt="Remover transação"></td>
+        <td><img onclick="Transaction.remove (${index})" src="./assets/minus.svg" alt="Remover transação"></td>
         
         `
         return html
@@ -264,8 +254,10 @@ const Form = {
 
 const App ={ //8
     init(){
-        Transaction.all.forEach(function(transaction){ //8  Para cada transação em transactions 
-            DOM.addTransaction(transaction)
+        Transaction.all.forEach(function(transaction,index){ //8  Para cada transação em transactions 
+            DOM.addTransaction(transaction, index) // 12
+
+            Storage.set(Transaction.all) //13
         })
         
         DOM.updateBalance()
@@ -284,6 +276,8 @@ const App ={ //8
         App.init()
     }
 }
+
+
 
 
 App.init();
@@ -316,3 +310,32 @@ DOM.updateBalance()
 
 /*7.1 Transaction = pegar todas as transações
   se for maior que zero  somar a uma variável e retornar a variável */
+
+
+/* const Transaction={ 7.1
+    all: [
+        {                  
+           
+            description:"luz", 
+            amount: -50001, 
+            date:"23/01/2021"
+        },      
+        {
+           
+            description:"Criação de website", 
+            amount: 500000,       
+            date:"23/01/2021"
+        },
+        {
+         
+            description:"internet", 
+            amount: -20013,       
+            date:"23/01/2021"
+        },
+        {
+           
+            description:"App", 
+            amount: 200000,       
+            date:"23/01/2021"
+        }
+    ], */
